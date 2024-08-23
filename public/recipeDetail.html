@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Animation for fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Image hover and parallax effect */
+        .recipe-image {
+            transition: transform 0.3s ease-in-out;
+            max-height: 100%;
+            object-fit: cover;
+            perspective: 1000px;
+        }
+        .recipe-image:hover {
+            transform: scale(1.05) rotateY(5deg);
+        }
+
+        /* Animated headers */
+        .recipe-section h4 {
+            animation: fadeIn 1.5s ease-in-out;
+            font-family: 'Poppins', sans-serif;
+            color: #ff6f61;
+        }
+
+        /* Content alignment and spacing */
+        .recipe-details {
+            margin-top: 50px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .recipe-section {
+            margin-bottom: 30px;
+        }
+
+        /* Navbar background change on scroll */
+        .navbar-scroll {
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: background-color 0.3s ease-in-out;
+        }
+        .navbar-fixed {
+            background-color: #ffffff;
+        }
+
+        /* Theme colors */
+        body {
+            background-color: #f7f7f7;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #ff6f61;
+            border-color: #ff6f61;
+        }
+        .btn-primary:hover {
+            background-color: #ff7a70;
+            border-color: #ff7a70;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top navbar-scroll">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Recipe Finder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contact">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="favourite.html">Favorites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="chatbot.html">ChatBot🤖</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Recipe Details Section -->
+    <section class="container recipe-details">
+        <div class="row fade-in">
+            <!-- Image on the left -->
+            <div class="col-md-6">
+                <img id="recipeImage" src="" alt="Recipe Image" class="img-fluid rounded shadow recipe-image">
+            </div>
+
+            <!-- Summary on the right of the image -->
+            <div class="col-md-6">
+                <h2 id="recipeTitle" class="fade-in"></h2>
+                <p id="recipeSummary" class="fade-in"></p>
+            </div>
+        </div>
+        
+        <!-- Ingredients and Instructions below the image -->
+        <div class="row fade-in mt-4">
+            <div class="col-12">
+                <div class="recipe-section">
+                    <h4>Ingredients</h4>
+                    <ul id="recipeIngredients"></ul>
+                </div>
+                <div class="recipe-section">
+                    <h4>Instructions</h4>
+                    <ol id="recipeInstructions"></ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const apiKey = '850cdd494c884456a200b02987f6d624';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const recipeId = params.get('id');
+            if (recipeId) {
+                fetchRecipeDetails(recipeId);
+            }
+        });
+
+        function fetchRecipeDetails(id) {
+            fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`)
+                .then(response => response.json())
+                .then(data => displayRecipeDetails(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayRecipeDetails(recipe) {
+            document.getElementById('recipeTitle').textContent = recipe.title;
+            document.getElementById('recipeImage').src = recipe.image;
+            document.getElementById('recipeSummary').innerHTML = recipe.summary;
+
+            const ingredientsList = document.getElementById('recipeIngredients');
+            ingredientsList.innerHTML = '';
+            recipe.extendedIngredients.forEach(ingredient => {
+                ingredientsList.innerHTML += `<li>${ingredient.original}</li>`;
+            });
+
+            const instructionsList = document.getElementById('recipeInstructions');
+            instructionsList.innerHTML = '';
+            recipe.analyzedInstructions[0].steps.forEach(step => {
+                instructionsList.innerHTML += `<li>${step.step}</li>`;
+            });
+        }
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('navbar-fixed');
+            } else {
+                navbar.classList.remove('navbar-fixed');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

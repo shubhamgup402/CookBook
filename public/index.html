@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Website</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="scripts.js" defer></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+      (function() {
+          emailjs.init("AV_0u2dO6Qg12ljT_"); // Initialize EmailJS with your public key
+      })();
+  </script>
+   <!-- update the version number as needed -->
+   <script defer src="/__/firebase/10.13.0/firebase-app-compat.js"></script>
+   <!-- include only the Firebase features as you need -->
+   <script defer src="/__/firebase/10.13.0/firebase-auth-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-database-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-firestore-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-functions-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-messaging-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-storage-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-analytics-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-remote-config-compat.js"></script>
+   <script defer src="/__/firebase/10.13.0/firebase-performance-compat.js"></script>
+   <!-- 
+     initialize the SDK after all desired features are loaded, set useEmulator to false
+     to avoid connecting the SDK to running emulators.
+   -->
+   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+
+
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">CookBook</a>
+      <button class="navbar-toggle" id="navbar-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-menu" id="navbar">
+        <a href="index.html">Home</a>  <!-- Link to index.html -->
+        <a href="#about-us">About Us</a>
+        <a href="#contact">Contact Us</a>
+        <a href="favourite.html">Favorites</a>  <!-- Link to favourite.html -->
+        <a href="chatbot.html">Chat Bot 🤖</a>  <!-- Link to chatbot.html -->
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- Hero Section -->
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Enjoy Your Healthy Delicious Food</h1>
+      <p>Elevate your meals with our handpicked recipes that perfectly balance flavor and nutrition. We craft each dish to enhance your dining experience while supporting a healthier lifestyle, so you can enjoy indulgent meals that also contribute to your well-being.</p>
+      <div style="display: flex; justify-content: center; position: relative;">
+        <input type="text" id="searchInput" placeholder="Search for a recipe..." oninput="showSearchSuggestions()">
+        <button onclick="searchRecipes()">Search</button>
+        <div id="suggestionsContainer" class="suggestions-container"></div>
+      </div>      
+    </div>
+    <img src="images/hero-img.png" alt="Delicious Food" class="hero-image">
+  </div>
+</header>
+
+  <!-- Random Recipes -->
+  <section id="randomRecipes" class="section">
+    <h2>Random Recipes</h2>
+    <div id="randomRecipesContainer" class="grid">
+      <!-- Random recipes will be displayed here -->
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about-us" class="about-us section">
+    <h2>About Us</h2>
+    <div class="about-content">
+        <img src="images/teamwok.png" alt="About Us">
+        <div class="about-text">
+          <p>At CookBook, we're passionate about transforming the way you experience food. Our team of culinary enthusiasts and health experts curate recipes that not only delight your taste buds but also promote a balanced lifestyle. Our mission is to provide you with innovative, delicious recipes that make healthy eating effortless and enjoyable, guiding you towards a more flavorful and health-conscious life.</p>
+        </div>
+    </div>
+</section>
+
+
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <div class="contact-container">
+      <form id="contactForm" class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="form-input" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-input" placeholder="Your Email">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" class="form-textarea" placeholder="Your Message"></textarea>
+        </div>
+        <button type="submit" class="button">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 CookBook. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
+
+
+
