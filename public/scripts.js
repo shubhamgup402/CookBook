@@ -66,13 +66,6 @@ function searchRecipes() {
     }
 }
 
-
-// Function to send contact message to Firebase Realtime Database
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    sendContactMessage();
-});
-
 function sendContactMessage() {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
